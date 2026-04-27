@@ -1,12 +1,13 @@
 /**
  * Crea el usuario administrador inicial en Supabase.
- * Correr una sola vez: node netlify/functions/setup.js
- * Requiere que el archivo .env esté configurado o que las variables estén en el entorno.
+ * Correr una sola vez desde la raíz del proyecto:
+ *   node scripts/setup.js
+ * Requiere .env con SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY
  */
 require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const readline = require('readline')
-const { getClient } = require('./db')
+const { getClient } = require('./functions-db')
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 const ask = q => new Promise(r => rl.question(q, r))
