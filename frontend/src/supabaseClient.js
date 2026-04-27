@@ -4,7 +4,9 @@ const supabaseUrl  = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnon = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnon) {
-  console.error('Faltan variables VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY en el .env')
+  console.error('Faltan variables de entorno VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY. ' +
+    'En Netlify: Site configuration → Environment variables. ' +
+    'En desarrollo local: archivo frontend/.env.local')
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnon, {
