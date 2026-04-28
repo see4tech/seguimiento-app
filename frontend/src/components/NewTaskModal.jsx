@@ -95,11 +95,10 @@ export default function NewTaskModal({ onClose, onCreated, preselectedManager })
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Origen</label>
               <select className="input" value={form.source_type} onChange={e => set('source_type', e.target.value)}>
-                <option value="manual">Manual</option>
+                <option value="manual">Directiva</option>
                 <option value="meeting">Reunión</option>
                 <option value="email">Correo</option>
                 <option value="note">Nota</option>
-                <option value="audio">Audio</option>
               </select>
             </div>
           </div>
