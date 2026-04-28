@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [filterStatus, setFilterStatus] = useState('all')
   const [showNewTask, setShowNewTask] = useState(false)
   const [showUsers, setShowUsers] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
   const [managers, setManagers] = useState([])
 
   const load = useCallback(async () => {
@@ -132,22 +133,29 @@ export default function Dashboard() {
             Nueva tarea
           </button>
 
-          <div className="relative group">
-            <button className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm flex items-center justify-center hover:bg-blue-200 transition-colors">
+          <div className="relative">
+            <button
+              onClick={() => setShowUserMenu(v => !v)}
+              className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm flex items-center justify-center hover:bg-blue-200 transition-colors">
               {user.name.charAt(0).toUpperCase()}
             </button>
-            <div className="absolute right-0 top-10 bg-white border border-gray-200 rounded-xl shadow-lg py-1 w-48 hidden group-hover:block z-20">
-              <div className="px-3 py-2 border-b">
-                <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                <p className="text-xs text-gray-500 truncate">{user.email}</p>
-              </div>
-              <button onClick={() => setShowUsers(true)} className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                👥 Gestionar usuarios
-              </button>
-              <button onClick={logout} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50">
-                Cerrar sesión
-              </button>
-            </div>
+            {showUserMenu && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setShowUserMenu(false)} />
+                <div className="absolute right-0 top-10 bg-white border border-gray-200 rounded-xl shadow-lg py-1 w-48 z-20">
+                  <div className="px-3 py-2 border-b">
+                    <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                  </div>
+                  <button onClick={() => { setShowUsers(true); setShowUserMenu(false) }} className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    👥 Gestionar usuarios
+                  </button>
+                  <button onClick={logout} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50">
+                    Cerrar sesión
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>
