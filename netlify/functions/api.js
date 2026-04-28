@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/auth',    require('./routes/auth'))
 app.use('/api/tasks',   require('./routes/tasks'))
 app.use('/api/updates', require('./routes/updates'))
+app.use('/api/ingest',  require('./routes/ingest'))
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', ts: new Date().toISOString() }))

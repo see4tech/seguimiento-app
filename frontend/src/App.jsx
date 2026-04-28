@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ManagerPortal from './pages/ManagerPortal'
 import TaskDetail from './pages/TaskDetail'
+import IngestPage from './pages/IngestPage'
 
 function AppRoutes() {
   const { user, loading } = useAuth()
@@ -24,6 +25,7 @@ function AppRoutes() {
         <>
           <Route path="/" element={<Dashboard />} />
           <Route path="/tareas/:id" element={<TaskDetail />} />
+          <Route path="/ingest" element={<IngestPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </>
       ) : (

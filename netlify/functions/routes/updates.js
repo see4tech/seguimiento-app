@@ -1,6 +1,7 @@
 const express = require('express')
 const { getClient } = require('../db')
 const { authMiddleware, adminOnly } = require('../middleware/auth')
+const { transcribeAudio, downloadFromStorage } = require('../utils/ai')
 
 const router = express.Router()
 
@@ -65,7 +66,26 @@ router.post('/:taskId', authMiddleware, async (req, res) => {
       await sb.from('tasks').update({ updated_at: new Date().toISOString() }).eq('id', taskId)
     }
 
-    res.status(201).json({ ...update, user_name: update.user?.name, user: undefined })
+    // Transcribir audio en background (no bloquea la respuesta)
+    let transcription = null
+    if (voice_storage_path && process.env.GROQ_API_KEY) {
+      try {
+        const filename = voice_storage_path.split('/').pop()
+        const audioBlob = await downloadFromStorage(sb, 'voice-updates', voice_storage_path)
+        transcription = await transcribeAudio(audioBlob, filename)
+        // Guardar transcripción sin esperar error para no romper la respuesta
+        await sb.from('task_updates').update({ transcription }).eq('id', update.id)
+      } catch (transcribeErr) {
+        console.error('Transcripción fallida (no crítico):', transcribeErr.message)
+      }
+    }
+
+    res.status(201).json({
+      ...update,
+      user_name: update.user?.name,
+      user: undefined,
+      transcription,
+    })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }

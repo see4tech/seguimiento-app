@@ -120,6 +120,11 @@ export default function Dashboard() {
             )}
           </div>
 
+          <button onClick={() => navigate('/ingest')}
+            className="flex items-center gap-1.5 text-sm py-1.5 px-3 rounded-lg border border-purple-200 text-purple-700 bg-purple-50 hover:bg-purple-100 font-medium transition-colors">
+            🎙️ Procesar reunión
+          </button>
+
           <button onClick={() => setShowNewTask(true)} className="btn-primary flex items-center gap-1.5 text-sm py-1.5">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
